@@ -1,0 +1,40 @@
+{
+  "name": "canvas-practice",
+  "version": "1.0.0",
+  "description": "canvas",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "test": "jest",
+    "commit": "git add . && git-cz",
+    "publish": "npm version patch && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuoHaoAt2017/canvas-practice.git"
+  },
+  "author": "LuoHao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuoHaoAt2017/canvas-practice/issues"
+  },
+  "homepage": "https://github.com/LuoHaoAt2017/canvas-practice#readme",
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.16.0",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "babel-jest": "^27.3.1",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.2",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ES2015",
+    "strict": false,
+    "noImplicitAny": false,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*.ts",
+  ]
+}
