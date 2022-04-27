@@ -1,26 +1,35 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
-function resolve(src) {
-  return path.resolve(__dirname, src);
-}
+const fs = require("fs");
 
 module.exports = {
-  mode: "development",
-  entry: resolve("src/index.ts"),
+  mode: "production",
+  entry: fs
+    .readdirSync(path.resolve(__dirname, "src"))
+    .filter((dir) =>
+      fs.statSync(path.join(__dirname, `src/${dir}`)).isDirectory()
+    )
+    .filter((dir) => fs.existsSync(path.join(__dirname, `src/${dir}/index.ts`)))
+    .reduce((accumulator, key) => {
+      accumulator[key] = path.join(__dirname, `src/${key}/index.ts`);
+      return accumulator;
+    }, {}),
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].js",
+    path: path.resolve(__dirname, "build"),
+    libraryTarget: "umd",
   },
+  devtool: "source-map",
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader'],
+        loader: "babel-loader",
       },
       {
         test: /\.ts$/,
-        use: ['ts-loader'],
+        loader: "ts-loader",
       },
       {
         test: /\.(png|jpg|svg)$/,
@@ -30,18 +39,26 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: resolve("public/index.html"),
-    }),
+    ...fs
+      .readdirSync(path.join(__dirname, "src"))
+      .filter((elem) =>
+        fs.statSync(path.join(__dirname, `src/${elem}`)).isDirectory()
+      )
+      .map(function (item) {
+        return new HtmlWebpackPlugin({
+          template: path.join(__dirname, "public/index.html"),
+          favicon: path.join(__dirname, "public/favicon.ico"),
+          chunks: [item],
+          title: item,
+          filename: `${item}.html`
+        });
+      }),
   ],
   resolve: {
     alias: {
-      "@": resolve("src"),
+      "@": path.resolve(__dirname, "src"),
     },
-    extensions: [".ts", ".js", ".json"],
-  },
-  externals: {
+    extensions: [".js", ".ts"],
   },
   devServer: {
     port: 9200,
