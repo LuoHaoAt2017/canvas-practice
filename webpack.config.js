@@ -10,15 +10,14 @@ module.exports = {
     .filter((dir) =>
       fs.statSync(path.join(__dirname, `src/${dir}`)).isDirectory()
     )
-    .filter((dir) => fs.existsSync(path.join(__dirname, `src/${dir}/index.ts`)))
+    .filter((dir) => fs.existsSync(path.join(__dirname, `src/${dir}/index.tsx`)))
     .reduce((accumulator, key) => {
-      accumulator[key] = path.join(__dirname, `src/${key}/index.ts`);
+      accumulator[key] = path.join(__dirname, `src/${key}/index.tsx`);
       return accumulator;
     }, {}),
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "build"),
-    libraryTarget: "umd",
   },
   devtool: "source-map",
   module: {
@@ -28,8 +27,12 @@ module.exports = {
         loader: "babel-loader",
       },
       {
-        test: /\.ts$/,
+        test: /\.(ts|tsx)$/,
         loader: "ts-loader",
+      },
+      {
+        test: /\.(css|less)$/,
+        use: ["css-loader", 'less-loader'],
       },
       {
         test: /\.(png|jpg|svg)$/,
@@ -58,7 +61,7 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
-    extensions: [".js", ".ts"],
+    extensions: [".js", ".ts", ".tsx"],
   },
   devServer: {
     port: 9200,
