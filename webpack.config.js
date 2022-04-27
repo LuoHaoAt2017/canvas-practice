@@ -4,7 +4,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const fs = require("fs");
 
 module.exports = {
-  mode: "production",
   entry: fs
     .readdirSync(path.resolve(__dirname, "src"))
     .filter((dir) =>
@@ -19,7 +18,6 @@ module.exports = {
     filename: "[name].js",
     path: path.resolve(__dirname, "build"),
   },
-  devtool: "source-map",
   module: {
     rules: [
       {
@@ -62,8 +60,5 @@ module.exports = {
       "@": path.resolve(__dirname, "src"),
     },
     extensions: [".js", ".ts", ".tsx"],
-  },
-  devServer: {
-    port: 9200,
   },
 };
